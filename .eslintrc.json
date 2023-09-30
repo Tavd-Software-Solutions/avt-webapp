@@ -52,6 +52,7 @@
 		"react/react-in-jsx-scope": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-non-null-assertion": "off",
+		"no-unsafe-optional-chaining": "off",
 		"eqeqeq": "error",
 		"indent": "off"
 	}

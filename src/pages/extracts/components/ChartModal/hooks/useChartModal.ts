@@ -14,12 +14,13 @@ import { Tags } from "../../../../../types/tags.types";
 import { chartModalSchema } from "../utils/charModal.schemas";
 import { IChartModal } from "../utils/chartModal.types";
 import useChart from "../../../../../context/hooks/useChart";
+import { v4 as uuid } from "uuid";
 
 export const useChartModal = (props: IChartModal) => {
 	const api = RevenueApi();
 	const tagApi = TagsApi();
 	const [tags, setTags] = useState<ISelectOption[]>();
-	const { listChart, addListChart } = useChart();
+	const { addListComponent } = useChart();
 
 	const chartTypes: ISelectOption<ChartType>[] = [
 		{ name: "Bars", data: ChartType.BAR },
@@ -86,7 +87,13 @@ export const useChartModal = (props: IChartModal) => {
 		}
 
 		if (data !== null && values.type) {
-			addListChart({ id: listChart.length + 1, type: values.type, data: data });
+			addListComponent({
+				id: uuid(),
+				type: values.type,
+				data: data,
+				x: 50,
+				y: 20,
+			});
 			return props.setFalse();
 		}
 	};

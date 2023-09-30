@@ -10,7 +10,7 @@
     "docs": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
@@ -30,6 +30,7 @@
     "sass": "^1.55.0",
     "tailwindcss": "^3.3.1",
     "typescript-plugin-css-modules": "^3.4.0",
+    "uuid": "^9.0.1",
     "yup": "^1.0.2"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "@vitejs/plugin-react": "^2.2.0",

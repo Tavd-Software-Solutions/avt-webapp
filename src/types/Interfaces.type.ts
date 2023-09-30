@@ -54,9 +54,9 @@ export type MODALTYPE = "tags" | "sources";
 export interface FilterOptions {
 	name?: string;
 	value?: number | null;
-	tagId?: string;
-	payMethod?: PaymentMethods | null;
-	typeRevenue?: TypeRevenue | null;
+	tagId?: [];
+	payMethod?: PaymentMethods[];
+	typeRevenue?: TypeRevenue[];
 	startDate?: Date | null;
 	endDate?: Date | null;
 }
@@ -110,8 +110,12 @@ export interface IChartData {
 	expense?: number;
 }
 
-export interface IChartCard {
-	id: number;
-	type: ChartType;
-	data: IChartData;
-}
+export type IComponentCard = {
+	id: string;
+	x: number;
+	y: number;
+	text?: string;
+	title?: string;
+	type?: ChartType;
+	data?: IChartData;
+};

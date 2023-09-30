@@ -33,7 +33,6 @@ export const useRevenueList = () => {
 			}
 			if (revenueList) {
 				return setRevenueList({
-					// eslint-disable-next-line no-unsafe-optional-chaining
 					data: [...revenueList?.data, ...data.data],
 					options: data.options,
 				});

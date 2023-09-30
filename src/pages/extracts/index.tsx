@@ -1,13 +1,64 @@
 import { BsPrinterFill } from "react-icons/bs";
 import useBoolean from "../../hooks/useBoolean";
 import { ChartModal } from "./components/ChartModal/ChartModal";
-import useChart from "../../context/hooks/useChart";
 import ChartCard from "../../components/Template/ChartCard";
+import { IComponentCard } from "../../types/Interfaces.type";
+import { useExtracts } from "./hooks/useExtracts";
+import useChart from "../../context/hooks/useChart";
+import { useCallback, useState } from "react";
 
 const ExtractsList = () => {
 	const [bool, { setTrue, setFalse }] = useBoolean(false);
-	const { listChart } = useChart();
 
+	const { listComponent, updateItemPosition } = useChart();
+	const [draggedComponent, setDraggedComponent] = useState<IComponentCard | null>(null);
+
+	const handleDragStart = (component: IComponentCard) => {
+		setDraggedComponent(component);
+	};
+
+	const handleDragEnd = useCallback(() => {
+		setDraggedComponent(null);
+	}, []);
+
+	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+		event.preventDefault();
+
+		const clientX = event.clientX;
+		const clientY = event.clientY;
+
+		const parentDiv = event.currentTarget;
+		const parentRect = parentDiv.getBoundingClientRect();
+
+		if (
+			clientX >= parentRect.left &&
+			clientX <= parentRect.right &&
+			clientY >= parentRect.top &&
+			clientY <= parentRect.bottom &&
+			clientX - 100 >= parentRect.left &&
+			clientX + 90 <= parentRect.right &&
+			clientY - 30 >= parentRect.top &&
+			clientY + 300 <= parentRect.bottom
+		) {
+			if (draggedComponent) {
+				const newX = clientX - parentRect.left;
+				const newY = clientY - parentRect.top;
+
+				let adjustedX = newX - 300;
+
+				console.log(adjustedX);
+				if (clientX - 300 <= parentRect.left) {
+					adjustedX += 200;
+				}
+				if (clientX + 150 >= parentRect.right) {
+					adjustedX -= 100;
+				}
+				adjustedX = clientX - 300 <= parentRect.left ? adjustedX + 200 : adjustedX;
+
+				updateItemPosition(draggedComponent.id, adjustedX, newY);
+			}
+		}
+	};
 	return (
 		<>
 			<ChartModal open={bool} setFalse={setFalse} />
@@ -26,12 +77,27 @@ const ExtractsList = () => {
 				</div>
 				<div className="w-full h-full flex justify-center gap-4 py-8 overflow-auto bg-gray-200">
 					<div
-						className="w-4/5 flex flex-wrap justify-center items-start bg-white gap-1 shadow-md p-6"
+						className="w-4/5 relative bg-white shadow-md p-6"
 						style={{ height: 1122 }}
+						onDrop={handleDrop}
+						onDragOver={(event) => event.preventDefault()}
 					>
-						{listChart.map((chart, index) => (
-							<ChartCard key={index} id={chart.id} type={chart.type} data={chart.data} />
-						))}
+						{listComponent.map((component: IComponentCard, index) => {
+							if (component.data && component.type) {
+								return (
+									<ChartCard
+										key={index}
+										id={component.id}
+										type={component.type}
+										data={component.data}
+										x={component.x}
+										y={component.y}
+										onDragStart={() => handleDragStart(component)}
+										onDragEnd={handleDragEnd}
+									/>
+								);
+							}
+						})}
 					</div>
 				</div>
 			</main>

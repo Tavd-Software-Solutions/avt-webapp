@@ -1,5 +1,7 @@
+import { Field } from "formik";
 import Button from "../Button";
 import DatePicker from "../DateRangePicker";
+import Dropdown from "../Dropdown/Dropdown";
 import Select from "../Select";
 import TextField from "../TextField";
 import { useFilterForm } from "./hooks/useFilterForm";
@@ -8,6 +10,15 @@ import { AiOutlineClear, AiOutlineClose } from "react-icons/ai";
 
 const SideNav = (props: ISideNavProps) => {
 	const { filter, payMethods, tags, typeRevenues, clearFilter } = useFilterForm(props);
+
+	const handleChangeArray = (array: any[], value: any, name:string) => {
+		if (array.includes(value)) {
+			array.splice(array.indexOf(value), 1)
+		} else {
+			array.push(value)
+		}
+		filter.setFieldValue(name, array)
+	}
 
 	return (
 		<div className="flex">
@@ -18,8 +29,8 @@ const SideNav = (props: ISideNavProps) => {
                              ${props.isOpen ? "translate-x-0" : "translate-x-full"}
                             `}
 			>
-				<div className="py-5 px-5 overflow-auto">
-					<div className="flex justify-between w-4/5 lg:w-full ">
+				<div className="py-5 px-5">
+					<div className="flex justify-between">
 						<AiOutlineClose
 							cursor={"pointer"}
 							size={30}
@@ -54,31 +65,25 @@ const SideNav = (props: ISideNavProps) => {
 								onChange={filter.handleChange}
 							/>
 
-							<Select
-								name={"tagId"}
-								optionDefault={"Tag"}
+							<Dropdown
+								name={"Tag"}
 								options={tags}
-								onChange={filter.handleChange}
-								value={filter.values.tagId}
-								removeDefaultOption={false}
+								value={filter.values.tagId as []}
+								onChange={(event: any) => handleChangeArray(filter.values.tagId as [], event.target.value, "tagId")}
 							/>
 
-							<Select
-								name={"payMethod"}
-								optionDefault={"Pay Method"}
+							<Dropdown
+								name={"Pay Method"}
 								options={payMethods}
-								onChange={filter.handleChange}
-								value={filter.values.payMethod}
-								removeDefaultOption={false}
+								onChange={(event) => handleChangeArray(filter.values.payMethod as [], event.target.value, "payMethod")}
+								value={filter.values.payMethod as []}
 							/>
 
-							<Select
-								name={"typeRevenue"}
-								optionDefault={"Type Revenue"}
+							<Dropdown
+								name={"Type Revenue"}
 								options={typeRevenues}
-								onChange={filter.handleChange}
-								value={filter.values.typeRevenue}
-								removeDefaultOption={false}
+								onChange={(event) => handleChangeArray(filter.values.typeRevenue as [], event.target.value, "typeRevenue")}
+								value={filter.values.typeRevenue as []}
 							/>
 
 							<DatePicker

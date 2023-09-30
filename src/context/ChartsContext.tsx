@@ -1,32 +1,43 @@
 import { ReactNode, createContext, useState } from "react";
-import { IChartCard } from "../types/Interfaces.type";
+import { IComponentCard } from "../types/Interfaces.type";
 
 interface ChartProviderProps {
 	children: ReactNode;
 }
 
 interface ChartContextType {
-	listChart: IChartCard[];
-	addListChart: (value: IChartCard) => void;
-	removeListChart: (id: number) => void;
+	listComponent: IComponentCard[];
+	addListComponent: (value: IComponentCard) => void;
+	updateItemPosition: (id: string, x: number, y: number) => void;
+	removeListComponent: (id: string) => void;
 }
 
 const ChartContext = createContext<ChartContextType | undefined>(undefined);
 
 // eslint-disable-next-line react/prop-types
 export const ChartProvider: React.FC<ChartProviderProps> = ({ children }) => {
-	const [listChart, setListChart] = useState<IChartCard[]>([]);
+	const [listComponent, setListComponent] = useState<IComponentCard[]>([]);
 
-	const addListChart = (value: IChartCard) => {
-		setListChart([...listChart, value]);
+	const addListComponent = (value: IComponentCard) => {
+		setListComponent((prevListComponent) => [...prevListComponent, value]);
 	};
 
-	const removeListChart = (id: number) => {
-		setListChart((prevListChart) => prevListChart.filter((chart) => chart.id !== id));
+	const removeListComponent = (id: string) => {
+		setListComponent((prevListComponent) =>
+			prevListComponent.filter((component) => component.id !== id),
+		);
+	};
+
+	const updateItemPosition = (id: string, x: number, y: number) => {
+		setListComponent((prevListComponent) =>
+			prevListComponent.map((item) => (item.id === id ? { ...item, x, y } : item)),
+		);
 	};
 
 	return (
-		<ChartContext.Provider value={{ listChart, addListChart, removeListChart }}>
+		<ChartContext.Provider
+			value={{ listComponent, addListComponent, removeListComponent, updateItemPosition }}
+		>
 			{children}
 		</ChartContext.Provider>
 	);
