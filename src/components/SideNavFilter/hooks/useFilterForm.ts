@@ -29,6 +29,7 @@ export const useFilterForm = (props: ISideNavProps) => {
 		onError: (error) => {
 			console.log(error);
 		},
+		retry: 2,
 	});
 
 	const clearFilter = () => {

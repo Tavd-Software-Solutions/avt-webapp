@@ -37,18 +37,22 @@ export const useGenericModalController = (props: IGenericModalProps) => {
 
 	const title = props.type === "tags" ? "Tags" : "Sources";
 
-	const list = useQuery<Data>(["generic-list", { previousValue }], () => {
-		if (props.type !== null) {
-			form.values.name = "";
-			if (props.type === "tags") {
-				return apiTags.listAllTags();
+	const list = useQuery<Data>(
+		["generic-list", { previousValue }],
+		() => {
+			if (props.type !== null) {
+				form.values.name = "";
+				if (props.type === "tags") {
+					return apiTags.listAllTags();
+				}
+				if (props.type === "sources") {
+					return apiSources.listSources();
+				}
 			}
-			if (props.type === "sources") {
-				return apiSources.listSources();
-			}
-		}
-		return [];
-	});
+			return [];
+		},
+		{ retry: 2 },
+	);
 
 	const deleteGeneric = useMutation(
 		async (id: string | undefined) => {

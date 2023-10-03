@@ -45,12 +45,11 @@ export function AppRoutes() {
 									element={<ExpensesForm type={"EDIT"} />}
 								/>
 								<Route path="/revenue" element={<RevenueList />} />
-								-
 								<Route
 									path="/extracts"
 									element={
 										<ChartProvider>
-											<ExtractsList />{" "}
+											<ExtractsList />
 										</ChartProvider>
 									}
 								/>

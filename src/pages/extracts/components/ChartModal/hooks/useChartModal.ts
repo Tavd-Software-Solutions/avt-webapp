@@ -55,8 +55,8 @@ export const useChartModal = (props: IChartModal) => {
 		validateOnChange: false,
 		onSubmit: (value) => {
 			const newObject = value;
-			newObject.payMethods = value.payMethods ? Number(value.payMethods) : null;
-			newObject.typeRevenue = value.typeRevenue ? Number(value.typeRevenue) : null;
+			newObject.payMethods;
+			newObject.typeRevenue;
 			newObject.type = value.type ? Number(value.type) : null;
 			createChart(value);
 		},
@@ -70,6 +70,7 @@ export const useChartModal = (props: IChartModal) => {
 				}),
 			);
 		},
+		retry: 2,
 		enabled: props.open === true && newChart.values.type !== null,
 	});
 

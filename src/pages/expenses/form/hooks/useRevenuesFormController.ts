@@ -50,6 +50,7 @@ export const useRevenuesFormController = (props: IRevenuesForm) => {
 				});
 			}
 		},
+		retry: 2,
 	});
 
 	useQuery("tags-list", {
@@ -61,6 +62,7 @@ export const useRevenuesFormController = (props: IRevenuesForm) => {
 				}),
 			);
 		},
+		retry: 2,
 	});
 
 	useQuery("sources-list", {
@@ -72,6 +74,7 @@ export const useRevenuesFormController = (props: IRevenuesForm) => {
 				}),
 			);
 		},
+		retry: 2,
 	});
 
 	const payMethods: ISelectOption<PaymentMethods>[] = [
@@ -104,8 +107,7 @@ export const useRevenuesFormController = (props: IRevenuesForm) => {
 		validateOnChange: false,
 		onSubmit: (value, { resetForm }) => {
 			const newObject = value;
-			newObject.payMethod = Number(newObject.payMethod);
-			newObject.typeRevenue = Number(newObject.typeRevenue);
+
 			newObject.value = Number(newObject.value);
 
 			if (!id) {

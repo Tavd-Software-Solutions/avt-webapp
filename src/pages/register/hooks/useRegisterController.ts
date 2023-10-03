@@ -64,6 +64,7 @@ export const useRegisterController = () => {
 				});
 			}
 		},
+		retry: 2,
 	});
 
 	return { userForm, error, coinsOptions };

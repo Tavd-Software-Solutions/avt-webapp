@@ -13,7 +13,7 @@ export const useMetrics = () => {
 		async () => {
 			return await revenueApi.getRevenuePieChart();
 		},
-		{ keepPreviousData: true, refetchOnWindowFocus: false },
+		{ keepPreviousData: true, refetchOnWindowFocus: false, retry: 2 },
 	);
 
 	const stackedChartData = useQuery(
@@ -21,7 +21,7 @@ export const useMetrics = () => {
 		async () => {
 			return await revenueApi.getStackedChart();
 		},
-		{ keepPreviousData: true, refetchOnWindowFocus: false },
+		{ keepPreviousData: true, refetchOnWindowFocus: false, retry: 2 },
 	);
 
 	const barChartData = useQuery(
@@ -35,7 +35,7 @@ export const useMetrics = () => {
 			}
 			return await revenueApi.getBarChart(filter);
 		},
-		{ keepPreviousData: true, refetchOnWindowFocus: false },
+		{ keepPreviousData: true, refetchOnWindowFocus: false, retry: 2 },
 	);
 
 	const setListFiltered = (values: FilterMetricsOptions) => {

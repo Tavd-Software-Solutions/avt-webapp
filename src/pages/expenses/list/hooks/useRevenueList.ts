@@ -9,7 +9,7 @@ export const useRevenueList = () => {
 	const queryClient = useQueryClient();
 	const [revenueList, setRevenueList] = useState<IRevenueList>();
 	const [pageable, setPageable] = useState<IRevenueOptions>({
-		order: "ASC",
+		order: "asc",
 		page: 1,
 		take: 10,
 		where: {},
@@ -20,7 +20,7 @@ export const useRevenueList = () => {
 		async () => {
 			return await revenueApi.getAmount();
 		},
-		{ keepPreviousData: true, refetchOnWindowFocus: false },
+		{ keepPreviousData: true, refetchOnWindowFocus: false, retry: 2 },
 	);
 
 	const { isFetching } = useQuery<IRevenueList>(["revenue-list", { pageable }], {
@@ -41,6 +41,7 @@ export const useRevenueList = () => {
 		onError: (error) => {
 			console.log(error);
 		},
+		retry: 2,
 	});
 
 	const changePage = () => {

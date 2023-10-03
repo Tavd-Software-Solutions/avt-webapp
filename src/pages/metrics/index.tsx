@@ -11,12 +11,12 @@ const Metrics = () => {
 
 	return (
 		<main className="w-full h-full flex flex-col items-center gap-y-4 overflow-auto md:gap-y-8">
-			{/* <SideNav
+			<SideNav
 				isOpen={bool}
 				setIsFalse={setFalse}
 				setWhere={setListFiltered}
 				clearFilter={clearFilter}
-			/> */}
+			/>
 
 			<div className="w-4/5 h-3/5 lg:h-4/5 md:w-4/5">
 				<div className="flex flex-col gap-x-5 md:flex-row flex-1">

@@ -3,7 +3,7 @@ export interface ISelectOption<T = any> {
 	data: T;
 }
 
-export type PageOrder = "ASC" | "DESC";
+export type PageOrder = "asc" | "desc";
 
 export interface IPageable {
 	order: PageOrder;
@@ -22,15 +22,15 @@ export interface ITags {
 }
 
 export enum TypeRevenue {
-	EXPENSE = 1,
-	INCOMING = 2,
+	EXPENSE = "EXPENSE",
+	INCOMING = "INCOMING",
 }
 
 export enum PaymentMethods {
-	PIX = 1,
-	CREDITCARD = 2,
-	DEBITCARD = 3,
-	MONEY = 4,
+	PIX = "PIX",
+	CREDITCARD = "CREDITCARD",
+	DEBITCARD = "DEBITCARD",
+	MONEY = "MONEY",
 }
 
 export interface IRevenue {
@@ -43,9 +43,9 @@ export interface IRevenue {
 	value: number;
 	source: ISource;
 	tag: ITags;
-	payMethod: number;
+	payMethod: PaymentMethods;
 	date: Date;
-	typeRevenue: number;
+	typeRevenue: TypeRevenue;
 	description?: string;
 }
 
@@ -62,9 +62,9 @@ export interface FilterOptions {
 }
 
 export interface FilterMetricsOptions {
-	tagId?: string;
-	payMethod?: PaymentMethods | null;
-	typeRevenue?: TypeRevenue | null;
+	tagId?: [];
+	payMethod?: PaymentMethods[];
+	typeRevenue?: TypeRevenue[];
 	startDate?: Date | null;
 	endDate?: Date | null;
 }
