@@ -3,7 +3,7 @@ import useAuth from "../context/hooks/useAuth";
 import { useEffect } from "react";
 
 const api: AxiosInstance = axios.create({
-	baseURL: "http://localhost:3030/",
+	baseURL: import.meta.env.VITE_API_URL,
 	headers: {
 		"Content-Type": "application/json;charset=utf-8",
 	},
@@ -48,3 +48,4 @@ const AuthorizationInterceptor: React.FC = () => {
 export default api;
 
 export { AuthorizationInterceptor };
+
