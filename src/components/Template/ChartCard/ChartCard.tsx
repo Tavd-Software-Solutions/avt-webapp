@@ -16,8 +16,8 @@ const ChartCard = (props: IChartCardProps) => {
 	return (
 		<>
 			<div
-				className="h-min absolute flex flex-col items-center justify-center shadow-md border border-gray-500"
-				style={{ width: "45%", left: props.x, top: props.y }}
+				className="h-min w-3/4 lg:w-1/2 absolute flex flex-col items-center justify-center shadow-md border border-gray-500"
+				style={{ left: props.x, top: props.y }}
 				draggable={draggable}
 				onDrag={(event: React.DragEvent<HTMLDivElement>) => {
 					props.onDragStart();

@@ -119,3 +119,9 @@ export type IComponentCard = {
 	type?: ChartType;
 	data?: IChartData;
 };
+
+export type ChartPage = {
+	id: string;
+	page: number;
+	components: IComponentCard[] | [];
+};

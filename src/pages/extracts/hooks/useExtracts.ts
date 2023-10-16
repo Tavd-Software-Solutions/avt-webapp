@@ -3,7 +3,7 @@ import useChart from "../../../context/hooks/useChart";
 import { IComponentCard } from "../../../types/Interfaces.type";
 
 export const useExtracts = () => {
-	const { listComponent, updateItemPosition } = useChart();
+	const { listPages, updateItemPosition, addNewPage } = useChart();
 
 	const [draggedComponent, setDraggedComponent] = useState<IComponentCard | null>(null);
 
@@ -20,6 +20,7 @@ export const useExtracts = () => {
 
 		const clientX = event.clientX;
 		const clientY = event.clientY;
+		console.log(event);
 
 		const parentDiv = event.currentTarget;
 		const parentRect = parentDiv.getBoundingClientRect();
@@ -54,5 +55,5 @@ export const useExtracts = () => {
 		}
 	};
 
-	return { listComponent, handleDragStart, handleDragEnd, handleDrop };
+	return { listPages, handleDragStart, handleDragEnd, handleDrop, addNewPage };
 };
