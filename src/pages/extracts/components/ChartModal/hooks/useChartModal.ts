@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import RevenueApi from "../../../../../api/Revenues";
 import {
 	ChartType,
+	FilterMetricsOptions,
 	IChartCreate,
 	ISelectOption,
 	PaymentMethods,
@@ -45,9 +46,9 @@ export const useChartModal = (props: IChartModal) => {
 		initialValues: {
 			title: "",
 			type: null,
-			tagIds: "",
-			payMethods: null,
-			typeRevenue: null,
+			tagIds: [],
+			payMethods: [],
+			typeRevenue: [],
 			startDate: null,
 			endDate: null,
 		},
@@ -58,7 +59,7 @@ export const useChartModal = (props: IChartModal) => {
 			newObject.payMethods;
 			newObject.typeRevenue;
 			newObject.type = value.type ? Number(value.type) : null;
-			createChart(value);
+			createChart(newObject);
 		},
 	});
 
@@ -78,7 +79,8 @@ export const useChartModal = (props: IChartModal) => {
 		let data = null;
 
 		if (values.type === ChartType.BAR) {
-			data = await api.getBarChart(values);
+			let obj: FilterMetricsOptions = { startDate: values.startDate, endDate: values.endDate, tagId: values.tagIds  };
+			data = await api.getBarChart(obj);
 		}
 		if (values.type === ChartType.PIE) {
 			data = await api.getRevenuePieChart();

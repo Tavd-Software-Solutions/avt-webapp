@@ -78,9 +78,9 @@ export enum ChartType {
 export interface IChartCreate {
 	title?: string;
 	type: ChartType | null;
-	typeRevenue?: TypeRevenue | null;
-	payMethods?: PaymentMethods | null;
-	tagIds?: string;
+	typeRevenue?: PaymentMethods[];
+	payMethods?: TypeRevenue[];
+	tagIds?: [];
 	startDate?: Date | null;
 	endDate?: Date | null;
 }

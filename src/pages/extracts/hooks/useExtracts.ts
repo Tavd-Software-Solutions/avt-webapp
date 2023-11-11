@@ -20,7 +20,6 @@ export const useExtracts = () => {
 
 		const clientX = event.clientX;
 		const clientY = event.clientY;
-		console.log(event);
 
 		const parentDiv = event.currentTarget;
 		const parentRect = parentDiv.getBoundingClientRect();
@@ -41,7 +40,6 @@ export const useExtracts = () => {
 
 				let adjustedX = newX - 300;
 
-				console.log(adjustedX);
 				if (clientX - 300 <= parentRect.left) {
 					adjustedX += 200;
 				}

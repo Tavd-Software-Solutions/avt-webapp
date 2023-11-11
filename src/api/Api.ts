@@ -48,4 +48,3 @@ const AuthorizationInterceptor: React.FC = () => {
 export default api;
 
 export { AuthorizationInterceptor };
-

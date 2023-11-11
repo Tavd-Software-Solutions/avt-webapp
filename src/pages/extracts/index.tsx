@@ -40,7 +40,10 @@ const ExtractsList = () => {
 								className="w-4/5 relative bg-white shadow-md p-6"
 								style={{ height: 1122 }}
 								onDrop={handleDrop}
-								onDragOver={(event) => event.preventDefault()}
+								onDragOver={(event) => {
+									// console.log(event.target.getBoundingClientRect());
+									event.preventDefault();
+								}}
 							>
 								{page.components.map((component: IComponentCard, index) => {
 									if (component.data && component.type) {
