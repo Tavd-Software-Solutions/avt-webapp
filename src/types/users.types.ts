@@ -15,3 +15,16 @@ export interface UsersDto {
 	password: string;
 	login: string;
 }
+
+export interface IGetRecoverCode {
+	email: string;
+}
+
+export interface IValidateRecoverCode {
+	recoverCode: string;
+}
+
+export interface IRecoverPassword {
+	newPassword: string;
+	confirmPassword: string;
+}

@@ -14,6 +14,7 @@ const ExtractsList = lazy(() => import("../pages/extracts"));
 const ExpensesForm = lazy(() => import("../pages/expenses/form/"));
 const RevenueList = lazy(() => import("../pages/expenses/list"));
 const Metrics = lazy(() => import("../pages/metrics"));
+const NewPassword = lazy(() => import("../pages/newPassword"));
 
 export function AppRoutes() {
 	return (
@@ -32,6 +33,7 @@ export function AppRoutes() {
 					<Routes>
 						<Route path="/" element={<Login />} />
 						<Route path="/register" element={<Register type={"NEW"} />} />
+						<Route path="/newPassword" element={<NewPassword />} />
 						<Route element={<ProtectedRoute />}>
 							<Route element={<Layout />}>
 								<Route path="/profile" element={<Register type={"VIEW"} />} />
