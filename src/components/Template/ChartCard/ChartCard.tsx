@@ -12,7 +12,7 @@ const ChartCard = (props: IChartCardProps) => {
 	const { dataOption } = useChartCard(props);
 
 	const handleDraggable = () => setDraggable((prevDraggable) => !prevDraggable);
-
+	console.log(props);
 	return (
 		<>
 			<div
@@ -26,17 +26,20 @@ const ChartCard = (props: IChartCardProps) => {
 				onDragEnd={props.onDragEnd}
 			>
 				<div
-					className="w-full h-6 bg-gray-100 flex justify-end items-center border-b border-gray-500 
+					className="w-full h-6 bg-gray-100 flex justify-between items-center border-b border-gray-500 
 					px-4 gap-4 shadow-lg shadow-indigo-500/10"
 				>
-					<FiMove
-						className="text-gray-800 cursor-pointer"
-						onMouseDownCapture={handleDraggable}
-					/>
-					<BsTrash
-						className="text-gray-800 cursor-pointer"
-						onClick={() => removeListComponent(props.id)}
-					/>
+					<div className="text-gray-900 truncate">{props.title}</div>
+					<div className="flex justify-end items-center gap-4">
+						<FiMove
+							className="text-gray-800 cursor-pointer"
+							onMouseDownCapture={handleDraggable}
+						/>
+						<BsTrash
+							className="text-gray-800 cursor-pointer"
+							onClick={() => removeListComponent(props.id)}
+						/>
+					</div>
 				</div>
 				<div className="w-full">
 					<ReactECharts

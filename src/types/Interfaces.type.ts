@@ -118,6 +118,7 @@ export type IComponentCard = {
 	title?: string;
 	type?: ChartType;
 	data?: IChartData;
+	page: number;
 };
 
 export type ChartPage = {

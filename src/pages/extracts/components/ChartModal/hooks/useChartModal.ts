@@ -94,8 +94,10 @@ export const useChartModal = (props: IChartModal) => {
 				id: uuid(),
 				type: values.type,
 				data: data,
+				title: values.title,
 				x: 50,
 				y: 20,
+				page: 0
 			});
 			return props.setFalse();
 		}

@@ -8,8 +8,15 @@ import { useExtracts } from "./hooks/useExtracts";
 const ExtractsList = () => {
 	const [bool, { setTrue, setFalse }] = useBoolean(false);
 
-	const { listPages, handleDragStart, handleDragEnd, handleDrop, addNewPage } =
-		useExtracts();
+	const {
+		listPages,
+		handleDragStart,
+		handleDragEnd,
+		handleDrop,
+		handleDragEnter,
+		handleDragLeave,
+		addNewPage,
+	} = useExtracts();
 
 	return (
 		<>
@@ -33,17 +40,19 @@ const ExtractsList = () => {
 					</div>
 				</div>
 				<div className="w-full h-full flex flex-wrap justify-center gap-8 py-8 overflow-auto bg-gray-200">
-					{listPages.map((page, index) => {
+					{listPages.map((page, indexPage) => {
 						return (
 							<div
-								key={index}
+								key={indexPage}
+								id={page.id}
 								className="w-4/5 relative bg-white shadow-md p-6"
 								style={{ height: 1122 }}
 								onDrop={handleDrop}
 								onDragOver={(event) => {
-									// console.log(event.target.getBoundingClientRect());
 									event.preventDefault();
+									handleDragEnter(event, page);
 								}}
+								onDragLeave={handleDragLeave}
 							>
 								{page.components.map((component: IComponentCard, index) => {
 									if (component.data && component.type) {
@@ -53,6 +62,7 @@ const ExtractsList = () => {
 												id={component.id}
 												type={component.type}
 												data={component.data}
+												title={component.title}
 												x={component.x}
 												y={component.y}
 												onDragStart={() => handleDragStart(component)}
