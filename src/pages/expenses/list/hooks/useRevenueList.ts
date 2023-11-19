@@ -20,7 +20,7 @@ export const useRevenueList = () => {
 		async () => {
 			return await revenueApi.getAmount();
 		},
-		{ keepPreviousData: true, refetchOnWindowFocus: false, retry: 2 },
+		{ keepPreviousData: true, refetchOnWindowFocus: false },
 	);
 
 	const { isFetching } = useQuery<IRevenueList>(["revenue-list", { pageable }], {
@@ -41,7 +41,6 @@ export const useRevenueList = () => {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: 2,
 	});
 
 	const changePage = () => {
