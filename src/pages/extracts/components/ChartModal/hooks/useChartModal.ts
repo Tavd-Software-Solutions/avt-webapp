@@ -54,12 +54,16 @@ export const useChartModal = (props: IChartModal) => {
 		},
 		validationSchema: validationSchema,
 		validateOnChange: false,
-		onSubmit: (value) => {
+		enableReinitialize: true,
+
+		onSubmit: (value, { resetForm }) => {
 			const newObject = value;
 			newObject.payMethods;
 			newObject.typeRevenue;
 			newObject.type = value.type ? Number(value.type) : null;
+			
 			createChart(newObject);
+			resetForm();
 		},
 	});
 
@@ -79,7 +83,13 @@ export const useChartModal = (props: IChartModal) => {
 		let data = null;
 
 		if (values.type === ChartType.BAR) {
-			let obj: FilterMetricsOptions = { startDate: values.startDate, endDate: values.endDate, tagId: values.tagIds  };
+			let obj: FilterMetricsOptions = { 
+				startDate: values.startDate, 
+				endDate: values.endDate, 
+				tagId: values.tagIds, 
+				payMethod: values.payMethods,
+				typeRevenue: values.typeRevenue
+			};
 			data = await api.getBarChart(obj);
 		}
 		if (values.type === ChartType.PIE) {
@@ -99,9 +109,19 @@ export const useChartModal = (props: IChartModal) => {
 				y: 20,
 				page: 0
 			});
+			
 			return props.setFalse();
 		}
 	};
 
-	return { newChart, tags, chartTypes, payMethods, typeRevenues };
+	const handleChangeArray = (array: any[], value: any, name:string) => {
+		if (array.includes(value)) {
+			array.splice(array.indexOf(value), 1)
+		} else {
+			array.push(value)
+		}
+		newChart.setFieldValue(name, array)
+	}
+	
+	return { newChart, tags, chartTypes, payMethods, typeRevenues, handleChangeArray };
 };

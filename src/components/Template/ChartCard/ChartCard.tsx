@@ -12,10 +12,11 @@ const ChartCard = (props: IChartCardProps) => {
 	const { dataOption } = useChartCard(props);
 
 	const handleDraggable = () => setDraggable((prevDraggable) => !prevDraggable);
-	console.log(props);
+
 	return (
 		<>
 			<div
+				id={props.id}
 				className="h-min w-3/4 lg:w-1/2 absolute flex flex-col items-center justify-center shadow-md border border-gray-500"
 				style={{ left: props.x, top: props.y }}
 				draggable={draggable}
@@ -29,7 +30,7 @@ const ChartCard = (props: IChartCardProps) => {
 					className="w-full h-6 bg-gray-100 flex justify-between items-center border-b border-gray-500 
 					px-4 gap-4 shadow-lg shadow-indigo-500/10"
 				>
-					<div className="text-gray-900 truncate">{props.title}</div>
+					<span className="text-base text-gray-900 truncate">{props.title}</span>
 					<div className="flex justify-end items-center gap-4">
 						<FiMove
 							className="text-gray-800 cursor-pointer"
@@ -43,6 +44,7 @@ const ChartCard = (props: IChartCardProps) => {
 				</div>
 				<div className="w-full">
 					<ReactECharts
+						style={{ width: "100%" }}
 						option={dataOption}
 						notMerge={true}
 						lazyUpdate={true}

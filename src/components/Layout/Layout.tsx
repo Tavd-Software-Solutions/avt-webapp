@@ -14,10 +14,12 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { MODALTYPE } from "../../types/Interfaces.type";
 import GenericModal from "../../pages/genericModal/GenericModal";
 import useBoolean from "../../hooks/useBoolean";
+import useWindowSize from "../../hooks/useWindowsSize";
 
 const Layout: FC = () => {
 	const { logout } = useAuth();
 	const [bool, { setTrue, setFalse }] = useBoolean(false);
+	const { width } = useWindowSize();
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -33,9 +35,18 @@ const Layout: FC = () => {
 		},
 		{
 			text: "Extracts",
-			icon: <FaList size={24} />,
-			selected: location.pathname === "/extracts",
-			onClick: () => navigate("/extracts"),
+			onRender: () => {
+				return width > 768 ? (
+					<SideBarItem
+						text="Extracts"
+						icon={<FaList size={24} />}
+						selected={location.pathname === "/extracts"}
+						onClick={() => navigate("/extracts")}
+					/>
+				) : (
+					<></>
+				);
+			},
 		},
 		{
 			text: "",

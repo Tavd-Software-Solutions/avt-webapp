@@ -15,6 +15,7 @@ const ExtractsList = () => {
 		handleDrop,
 		handleDragEnter,
 		handleDragLeave,
+		handlePrint,
 		addNewPage,
 	} = useExtracts();
 
@@ -34,7 +35,7 @@ const ExtractsList = () => {
 								<BsFileBreakFill size={16} color="white" onClick={() => addNewPage()} />
 							</div>
 							<div className="cursor-pointer border-2 border-white rounded p-1">
-								<BsPrinterFill size={16} color="white" />
+								<BsPrinterFill size={16} color="white" onClick={handlePrint} />
 							</div>
 						</div>
 					</div>

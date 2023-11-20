@@ -1,5 +1,6 @@
 import Button from "../../../../components/Button";
 import DatePicker from "../../../../components/DateRangePicker";
+import Dropdown from "../../../../components/Dropdown";
 import Modal from "../../../../components/Modal";
 import Select from "../../../../components/Select";
 import TextField from "../../../../components/TextField";
@@ -8,7 +9,8 @@ import { useChartModal } from "./hooks/useChartModal";
 import { IChartModal } from "./utils/chartModal.types";
 
 export const ChartModal = (props: IChartModal) => {
-	const { newChart, tags, chartTypes, payMethods, typeRevenues } = useChartModal(props);
+	const { newChart, tags, chartTypes, payMethods, typeRevenues, handleChangeArray } =
+		useChartModal(props);
 
 	return (
 		<Modal
@@ -42,30 +44,44 @@ export const ChartModal = (props: IChartModal) => {
 				/>
 				{Number(newChart.values.type) === ChartType.BAR && (
 					<>
-						<Select
-							name={"typeRevenue"}
-							optionDefault={"Type Revenue"}
+						<Dropdown
+							name={"Type Revenue"}
 							options={typeRevenues}
-							value={newChart.values.typeRevenue || ""}
-							onChange={newChart.handleChange}
-							error={newChart.errors.typeRevenue}
+							onChange={(event) =>
+								handleChangeArray(
+									newChart.values.typeRevenue as [],
+									event.target.value,
+									"typeRevenue",
+								)
+							}
+							value={newChart.values.typeRevenue as []}
 						/>
+
 						<div className="w-full flex flex-col md:flex-row gap-2">
-							<Select
-								name={"tagIds"}
-								optionDefault={"Tag"}
+							<Dropdown
+								name={"Tag"}
 								options={tags || []}
-								value={newChart.values.tagIds || ""}
-								onChange={newChart.handleChange}
-								error={newChart.errors.tagIds}
+								value={newChart.values.tagIds as []}
+								onChange={(event: any) =>
+									handleChangeArray(
+										newChart.values.tagIds as [],
+										event.target.value,
+										"tagId",
+									)
+								}
 							/>
-							<Select
-								name={"payMethods"}
-								optionDefault={"Pay Method"}
+
+							<Dropdown
+								name={"Pay Method"}
 								options={payMethods}
-								value={newChart.values.payMethods || ""}
-								onChange={newChart.handleChange}
-								error={newChart.errors.payMethods}
+								onChange={(event) =>
+									handleChangeArray(
+										newChart.values.payMethods as [],
+										event.target.value,
+										"payMethod",
+									)
+								}
+								value={newChart.values.payMethods as []}
 							/>
 						</div>
 						<DatePicker
