@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { ChartType, IChartCard } from "../../../../types/Interfaces.type";
+import { ChartType } from "../../../../types/Interfaces.type";
+import { IChartCardProps } from "../utils/chartCard.types";
 
-export const useChartCard = (props: IChartCard) => {
+export const useChartCard = (props: IChartCardProps) => {
 	const dataOption = useMemo(() => {
 		if (props.type === ChartType.PIE) {
 			return {
