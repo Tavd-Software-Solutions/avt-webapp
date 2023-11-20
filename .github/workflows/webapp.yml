@@ -25,18 +25,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd webapp
           npm install -g yarn
           yarn install
 
       - name: Validate ESlint
         run: |
-          cd webapp
           yarn lint:fix
 
       - name: Build
         run: |
-          cd webapp
           yarn build
   deploy:
     needs: build
