@@ -23,8 +23,6 @@ export const useRegisterController = () => {
 		});
 	}, [jsonCoins]);
 
-	// console.log(coins.AED)
-
 	const userForm = useFormik<IRegisterUser>({
 		initialValues: {
 			name: "",
@@ -64,6 +62,7 @@ export const useRegisterController = () => {
 				});
 			}
 		},
+		retry: 2,
 	});
 
 	return { userForm, error, coinsOptions };

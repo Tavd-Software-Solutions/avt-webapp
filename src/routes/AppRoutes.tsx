@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loading from "../components/Loading/Loading";
 import { AuthProvider } from "../context/AuthContext";
@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 import { AuthorizationInterceptor } from "../api/Api";
 import { ChartProvider } from "../context/ChartsContext";
+import useWindowSize from "../hooks/useWindowsSize";
 
 const Layout = lazy(() => import("../components/Layout/Layout"));
 const Login = lazy(() => import("../pages/login"));
@@ -14,8 +15,10 @@ const ExtractsList = lazy(() => import("../pages/extracts"));
 const ExpensesForm = lazy(() => import("../pages/expenses/form/"));
 const RevenueList = lazy(() => import("../pages/expenses/list"));
 const Metrics = lazy(() => import("../pages/metrics"));
+const NewPassword = lazy(() => import("../pages/newPassword"));
 
 export function AppRoutes() {
+	const { width } = useWindowSize();
 	return (
 		<AuthProvider>
 			<AuthorizationInterceptor />
@@ -32,6 +35,7 @@ export function AppRoutes() {
 					<Routes>
 						<Route path="/" element={<Login />} />
 						<Route path="/register" element={<Register type={"NEW"} />} />
+						<Route path="/newPassword" element={<NewPassword />} />
 						<Route element={<ProtectedRoute />}>
 							<Route element={<Layout />}>
 								<Route path="/profile" element={<Register type={"VIEW"} />} />
@@ -45,13 +49,16 @@ export function AppRoutes() {
 									element={<ExpensesForm type={"EDIT"} />}
 								/>
 								<Route path="/revenue" element={<RevenueList />} />
-								-
 								<Route
 									path="/extracts"
 									element={
-										<ChartProvider>
-											<ExtractsList />{" "}
-										</ChartProvider>
+										width > 768 ? (
+											<ChartProvider>
+												<ExtractsList />
+											</ChartProvider>
+										) : (
+											<Navigate to={"/revenue"} />
+										)
 									}
 								/>
 								<Route path="/metrics" element={<Metrics />} />

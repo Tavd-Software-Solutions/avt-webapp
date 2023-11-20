@@ -17,6 +17,14 @@ export const post = async <T>(route: string, body: T) => {
 	}
 };
 
+export const passwordCommands = async <T>(route: string, body: T) => {
+	try {
+		return (await api.post(`${route}`, body)).data;
+	} catch (e: any) {
+		return handleErrors(e);
+	}
+};
+
 export const listAll = async <U>(route: string): Promise<U> => {
 	try {
 		return (await api.get(`${route}/list-all`)).data;

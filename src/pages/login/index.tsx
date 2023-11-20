@@ -39,6 +39,12 @@ const Login = () => {
 							error={loginForm.errors.password}
 						/>
 
+						<div>
+							<a className="no-underline text-black-100 text-sm" href="newPassword">
+								Forgot Password?
+							</a>
+						</div>
+
 						<Button type="submit" spacing={20}>
 							Login
 						</Button>

@@ -29,6 +29,7 @@ export const useFilterForm = (props: ISideNavProps) => {
 		onError: (error) => {
 			console.log(error);
 		},
+		retry: 2,
 	});
 
 	const clearFilter = () => {
@@ -53,18 +54,15 @@ export const useFilterForm = (props: ISideNavProps) => {
 	const filter = useFormik<FilterOptions>({
 		initialValues: {
 			name: "",
-			tagId: "",
-			payMethod: null,
-			typeRevenue: null,
+			tagId: [],
+			payMethod: [],
+			typeRevenue: [],
 			value: null,
 			startDate: null,
 			endDate: null,
 		},
 		onSubmit: (value) => {
-			const newObject = value;
-			newObject.payMethod = value.payMethod ? Number(value.payMethod) : null;
-			newObject.typeRevenue = value.typeRevenue ? Number(value.typeRevenue) : null;
-			setWhere(newObject);
+			setWhere(value);
 			if (value !== filter.initialValues) {
 				setIsFalse();
 			}

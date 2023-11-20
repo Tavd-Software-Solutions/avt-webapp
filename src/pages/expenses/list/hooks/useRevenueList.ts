@@ -9,7 +9,7 @@ export const useRevenueList = () => {
 	const queryClient = useQueryClient();
 	const [revenueList, setRevenueList] = useState<IRevenueList>();
 	const [pageable, setPageable] = useState<IRevenueOptions>({
-		order: "ASC",
+		order: "asc",
 		page: 1,
 		take: 10,
 		where: {},
@@ -33,7 +33,6 @@ export const useRevenueList = () => {
 			}
 			if (revenueList) {
 				return setRevenueList({
-					// eslint-disable-next-line no-unsafe-optional-chaining
 					data: [...revenueList?.data, ...data.data],
 					options: data.options,
 				});

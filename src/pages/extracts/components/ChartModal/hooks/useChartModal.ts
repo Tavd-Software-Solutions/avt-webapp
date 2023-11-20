@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import RevenueApi from "../../../../../api/Revenues";
 import {
 	ChartType,
+	FilterMetricsOptions,
 	IChartCreate,
 	ISelectOption,
 	PaymentMethods,
@@ -14,12 +15,13 @@ import { Tags } from "../../../../../types/tags.types";
 import { chartModalSchema } from "../utils/charModal.schemas";
 import { IChartModal } from "../utils/chartModal.types";
 import useChart from "../../../../../context/hooks/useChart";
+import { v4 as uuid } from "uuid";
 
 export const useChartModal = (props: IChartModal) => {
 	const api = RevenueApi();
 	const tagApi = TagsApi();
 	const [tags, setTags] = useState<ISelectOption[]>();
-	const { listChart, addListChart } = useChart();
+	const { addListComponent } = useChart();
 
 	const chartTypes: ISelectOption<ChartType>[] = [
 		{ name: "Bars", data: ChartType.BAR },
@@ -44,20 +46,24 @@ export const useChartModal = (props: IChartModal) => {
 		initialValues: {
 			title: "",
 			type: null,
-			tagIds: "",
-			payMethods: null,
-			typeRevenue: null,
+			tagIds: [],
+			payMethods: [],
+			typeRevenue: [],
 			startDate: null,
 			endDate: null,
 		},
 		validationSchema: validationSchema,
 		validateOnChange: false,
-		onSubmit: (value) => {
+		enableReinitialize: true,
+
+		onSubmit: (value, { resetForm }) => {
 			const newObject = value;
-			newObject.payMethods = value.payMethods ? Number(value.payMethods) : null;
-			newObject.typeRevenue = value.typeRevenue ? Number(value.typeRevenue) : null;
+			newObject.payMethods;
+			newObject.typeRevenue;
 			newObject.type = value.type ? Number(value.type) : null;
-			createChart(value);
+			
+			createChart(newObject);
+			resetForm();
 		},
 	});
 
@@ -69,6 +75,7 @@ export const useChartModal = (props: IChartModal) => {
 				}),
 			);
 		},
+		retry: 2,
 		enabled: props.open === true && newChart.values.type !== null,
 	});
 
@@ -76,7 +83,14 @@ export const useChartModal = (props: IChartModal) => {
 		let data = null;
 
 		if (values.type === ChartType.BAR) {
-			data = await api.getBarChart(values);
+			let obj: FilterMetricsOptions = { 
+				startDate: values.startDate, 
+				endDate: values.endDate, 
+				tagId: values.tagIds, 
+				payMethod: values.payMethods,
+				typeRevenue: values.typeRevenue
+			};
+			data = await api.getBarChart(obj);
 		}
 		if (values.type === ChartType.PIE) {
 			data = await api.getRevenuePieChart();
@@ -86,10 +100,28 @@ export const useChartModal = (props: IChartModal) => {
 		}
 
 		if (data !== null && values.type) {
-			addListChart({ id: listChart.length + 1, type: values.type, data: data });
+			addListComponent({
+				id: uuid(),
+				type: values.type,
+				data: data,
+				title: values.title,
+				x: 50,
+				y: 20,
+				page: 0
+			});
+			
 			return props.setFalse();
 		}
 	};
 
-	return { newChart, tags, chartTypes, payMethods, typeRevenues };
+	const handleChangeArray = (array: any[], value: any, name:string) => {
+		if (array.includes(value)) {
+			array.splice(array.indexOf(value), 1)
+		} else {
+			array.push(value)
+		}
+		newChart.setFieldValue(name, array)
+	}
+	
+	return { newChart, tags, chartTypes, payMethods, typeRevenues, handleChangeArray };
 };
