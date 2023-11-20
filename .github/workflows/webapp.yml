@@ -36,7 +36,7 @@ jobs:
         run: |
           yarn build
   deploy:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
