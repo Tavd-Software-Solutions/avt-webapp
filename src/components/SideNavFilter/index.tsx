@@ -11,14 +11,14 @@ import { AiOutlineClear, AiOutlineClose } from "react-icons/ai";
 const SideNav = (props: ISideNavProps) => {
 	const { filter, payMethods, tags, typeRevenues, clearFilter } = useFilterForm(props);
 
-	const handleChangeArray = (array: any[], value: any, name:string) => {
+	const handleChangeArray = (array: any[], value: any, name: string) => {
 		if (array.includes(value)) {
-			array.splice(array.indexOf(value), 1)
+			array.splice(array.indexOf(value), 1);
 		} else {
-			array.push(value)
+			array.push(value);
 		}
-		filter.setFieldValue(name, array)
-	}
+		filter.setFieldValue(name, array);
+	};
 
 	return (
 		<div className="flex">
@@ -69,20 +69,38 @@ const SideNav = (props: ISideNavProps) => {
 								name={"Tag"}
 								options={tags}
 								value={filter.values.tagId as []}
-								onChange={(event: any) => handleChangeArray(filter.values.tagId as [], event.target.value, "tagId")}
+								onChange={(event: any) =>
+									handleChangeArray(
+										filter.values.tagId as [],
+										event.target.value,
+										"tagId",
+									)
+								}
 							/>
 
 							<Dropdown
 								name={"Pay Method"}
 								options={payMethods}
-								onChange={(event) => handleChangeArray(filter.values.payMethod as [], event.target.value, "payMethod")}
+								onChange={(event) =>
+									handleChangeArray(
+										filter.values.payMethod as [],
+										event.target.value,
+										"payMethod",
+									)
+								}
 								value={filter.values.payMethod as []}
 							/>
 
 							<Dropdown
 								name={"Type Revenue"}
 								options={typeRevenues}
-								onChange={(event) => handleChangeArray(filter.values.typeRevenue as [], event.target.value, "typeRevenue")}
+								onChange={(event) =>
+									handleChangeArray(
+										filter.values.typeRevenue as [],
+										event.target.value,
+										"typeRevenue",
+									)
+								}
 								value={filter.values.typeRevenue as []}
 							/>
 

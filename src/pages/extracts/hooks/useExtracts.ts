@@ -6,7 +6,8 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 export const useExtracts = () => {
-	const { listPages, updateItemPosition, addNewPage, changeComponentPage, countPages } = useChart();
+	const { listPages, updateItemPosition, addNewPage, changeComponentPage, countPages } =
+		useChart();
 	const { width } = useWindowSize();
 
 	const [draggedComponent, setDraggedComponent] = useState<IComponentCard | null>(null);
@@ -21,12 +22,12 @@ export const useExtracts = () => {
 	}, []);
 
 	const handleDragEnter = (event: React.DragEvent<HTMLDivElement>, page: ChartPage) => {
-    setCurrentPage(page);
-  };
+		setCurrentPage(page);
+	};
 
-  const handleDragLeave = () => {
-    setCurrentPage(null);
-  };
+	const handleDragLeave = () => {
+		setCurrentPage(null);
+	};
 
 	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
@@ -40,15 +41,17 @@ export const useExtracts = () => {
 		const object = {
 			top: 30,
 			right: width > 768 ? 90 : 0,
-			left: width > 768 ? 100 : 0
-		}
+			left: width > 768 ? 100 : 0,
+		};
 
-		if (clientX >= parentRect.left &&
+		if (
+			clientX >= parentRect.left &&
 			clientX <= parentRect.right &&
 			clientX - object.left >= parentRect.left &&
-			clientX + object.right <= parentRect.right) {
+			clientX + object.right <= parentRect.right
+		) {
 			if (draggedComponent) {
-				if (draggedComponent.page === 0  && clientY - object.top <= parentRect.top) return;
+				if (draggedComponent.page === 0 && clientY - object.top <= parentRect.top) return;
 				const newX = clientX - parentRect.left;
 				const newY = clientY - parentRect.top;
 
@@ -65,16 +68,29 @@ export const useExtracts = () => {
 				if (clientY + 300 >= parentRect.bottom || clientY >= parentRect.bottom) {
 					draggedComponent.x = 50;
 					draggedComponent.y = 20;
-					const newPage = currentPage && draggedComponent.page > currentPage.page ? currentPage.page : draggedComponent.page + 1;
-					if (draggedComponent.page == 0 && countPages == 1 && draggedComponent.page == currentPage?.page) {
+					const newPage =
+						currentPage && draggedComponent.page > currentPage.page
+							? currentPage.page
+							: draggedComponent.page + 1;
+					if (
+						draggedComponent.page === 0 &&
+						countPages === 1 &&
+						draggedComponent.page === currentPage?.page
+					) {
 						return addNewPage(draggedComponent);
 					}
 					return changeComponentPage(draggedComponent, newPage);
 				}
 
-				if ((clientY - 100 <= parentRect.top || clientY <= parentRect.top) && draggedComponent.page !== 0) {
+				if (
+					(clientY - 100 <= parentRect.top || clientY <= parentRect.top) &&
+					draggedComponent.page !== 0
+				) {
 					draggedComponent.y = 600;
-					const newPage = currentPage && draggedComponent.page < currentPage.page ? currentPage.page : draggedComponent.page - 1;
+					const newPage =
+						currentPage && draggedComponent.page < currentPage.page
+							? currentPage.page
+							: draggedComponent.page - 1;
 					return changeComponentPage(draggedComponent, newPage);
 				}
 
@@ -89,7 +105,7 @@ export const useExtracts = () => {
 	};
 
 	const handlePrint = async () => {
-    const pdf = new jsPDF();
+		const pdf = new jsPDF();
 
 		const pageHeight = pdf.internal.pageSize.getHeight();
 
@@ -99,18 +115,26 @@ export const useExtracts = () => {
 				pdf.addPage();
 			}
 			const element = document.getElementById(page.id);
-      if (element) {
-        const canvas = await html2canvas(element);
-        const imgWidth = 200; 
-        const imgHeight = pageHeight - 80;
+			if (element) {
+				const canvas = await html2canvas(element);
+				const imgWidth = 200;
+				const imgHeight = pageHeight - 80;
 
-        pdf.addImage(canvas, 'PNG', 0, 0, imgWidth, imgHeight);
-      }
+				pdf.addImage(canvas, "PNG", 0, 0, imgWidth, imgHeight);
+			}
+		}
 
-		};
+		pdf.save("extracts.pdf");
+	};
 
-		pdf.save('extracts.pdf');
-  };
-
-	return { listPages, handleDragStart, handleDragEnd, handleDrop, handleDragEnter, handleDragLeave, handlePrint, addNewPage };
+	return {
+		listPages,
+		handleDragStart,
+		handleDragEnd,
+		handleDrop,
+		handleDragEnter,
+		handleDragLeave,
+		handlePrint,
+		addNewPage,
+	};
 };

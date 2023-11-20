@@ -50,7 +50,7 @@ export const ChartProvider: React.FC<ChartProviderProps> = ({ children }) => {
 			if (
 				page.page === 0 ||
 				page.components.length > 0 ||
-				(newPage && page.page == newPage)
+				(newPage && page.page === newPage)
 			) {
 				return page;
 			}
