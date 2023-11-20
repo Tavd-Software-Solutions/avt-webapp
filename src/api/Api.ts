@@ -3,7 +3,7 @@ import useAuth from "../context/hooks/useAuth";
 import { useEffect } from "react";
 
 const api: AxiosInstance = axios.create({
-	baseURL: "http://af18b3cf5f7c544db867745273cafd76-418763046.us-east-1.elb.amazonaws.com:3030/",
+	baseURL: "http://a13738f913b46407e960c382b66742c1-1582505135.us-east-1.elb.amazonaws.com:3030/",
 	headers: {
 		"Content-Type": "application/json;charset=utf-8",
 	},
