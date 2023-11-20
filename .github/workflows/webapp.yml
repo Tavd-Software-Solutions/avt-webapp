@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+	build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,20 +25,47 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd webapp
           npm install -g yarn
           yarn install
 
       - name: Validate ESlint
         run: |
+          cd webapp
           yarn lint:fix
 
       - name: Build
         run: |
+          cd webapp
           yarn build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
 
-      - name: Deploy to Vercel
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Auth AWS
         run: |
-          npm install --global vercel@latest
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+          aws configure set aws_access_key_id ${{ secrets.AWS_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Auth Docker client
+        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ secrets.AWS_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t avt-webapp ./webapp
+
+      - name: Version Docker image
+        run: docker tag avt-webapp:latest ${{ secrets.AWS_REPOSITORY }}/front:latest
+
+      - name: Push Docker image to AWS
+        run: |
+          docker push ${{ secrets.AWS_REPOSITORY }}/front:latest
